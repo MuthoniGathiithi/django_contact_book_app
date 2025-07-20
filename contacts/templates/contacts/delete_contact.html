@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Contact</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #ff6b6b);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .warning-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            margin: 0 auto 25px;
+            box-shadow: 0 15px 30px rgba(240, 147, 251, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 15px 30px rgba(240, 147, 251, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 20px 40px rgba(240, 147, 251, 0.6);
+            }
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .contact-preview {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .contact-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 20px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .contact-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .contact-details {
+            text-align: left;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #666;
+            font-size: 1em;
+        }
+
+        .detail-item i {
+            width: 25px;
+            margin-right: 12px;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .warning-message {
+            background: rgba(240, 147, 251, 0.1);
+            border: 2px solid rgba(240, 147, 251, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            color: #721c24;
+            font-weight: 500;
+        }
+
+        .warning-message strong {
+            color: #f5576c;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 70%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 50px;
+            height: 50px;
+            bottom: 20%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                min-width: auto;
+            }
+
+            .contact-details {
+                text-align: center;
+            }
+
+            .detail-item {
+                justify-content: center;
+            }
+        }
+
+        .confirmation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .confirmation-dialog {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+
+        <div class="warning-icon">
+            ⚠️
+        </div>
+
+        <div class="header">
+            <h1>Delete Contact</h1>
+            <p>Are you sure you want to permanently delete this contact?</p>
+        </div>
+
+        <!-- Contact Preview -->
+        <div class="contact-preview">
+            <div class="contact-avatar">
+                {{ contact.name|first }}
+            </div>
+            <div class="contact-name">{{ contact.name }}</div>
+            <div class="contact-details">
+                {% if contact.email %}
+                    <div class="detail-item">
+                        <i>📧</i>
+                        <span>{{ contact.email }}</span>
+                    </div>
+                {% endif %}
+                {% if contact.phone %}
+                    <div class="detail-item">
+                        <i>📱</i>
+                        <span>{{ contact.phone }}</span>
+                    </div>
+                {% endif %}
+                {% if contact.address %}
+                    <div class="detail-item">
+                        <i>📍</i>
+                        <span>{{ contact.address }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Warning Message -->
+        <div class="warning-message">
+            <strong>⚠️ Warning!</strong>
+            This action cannot be undone. The contact will be permanently removed from your contact list.
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-container">
+            <form method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">
+                    🗑️ Yes, Delete
+                </button>
+            </form>
+            <a href="{% url 'view_contacts' %}" class="btn btn-secondary">
+                🔙 Cancel
+            </a>
+        </div>
+    </div>
+
+    <!-- Confirmation Overlay -->
+    <div class="confirmation-overlay" id="confirmationOverlay">
+        <div class="confirmation-dialog">
+            <h3 style="color: #f5576c; margin-bottom: 15px;">⚠️ Final Confirmation</h3>
+            <p style="margin-bottom: 20px; color: #666;">
+                Are you absolutely sure you want to delete <strong>{{ contact.name }}</strong>?
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="proceedDelete()" class="btn btn-danger" style="padding: 10px 20px; font-size: 0.9em;">
+                    Yes, Delete Forever
+                </button>
+                <button onclick="cancelDelete()" class="btn btn-secondary" style="padding: 10px 20px; font-size: 0.9em;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let deleteForm = null;
+
+        function confirmDelete() {
+            deleteForm = event.target.closest('form');
+            event.preventDefault();
+            document.getElementById('confirmationOverlay').style.display = 'flex';
+            return false;
+        }
+
+        function proceedDelete() {
+            if (deleteForm) {
+                deleteForm.submit();
+            }
+        }
+
+        function cancelDelete() {
+            document.getElementById('confirmationOverlay').style.display = 'none';
+            deleteForm = null;
+        }
+
+        // Close overlay when clicking outside
+        document.getElementById('confirmationOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cancelDelete();
+            }
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate contact preview on load
+            const preview = document.querySelector('.contact-preview');
+            preview.style.opacity = '0';
+            preview.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                preview.style.transition = 'all 0.5s ease';
+                preview.style.opacity = '1';
+                preview.style.transform = 'translateY(0)';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
